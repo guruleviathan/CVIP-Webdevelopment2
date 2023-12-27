@@ -1,0 +1,97 @@
+# CVIP-Webdevelopment2
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVIP-phase_2</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Monaco&display=swap">
+    <style>
+        body {
+            font-family: 'Monaco', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://media.istockphoto.com/id/1486780208/photo/misty-black-concrete-room-background-with-blue-pink-light-and-smoke-neon-color-plaster-stucco.jpg?b=1&s=612x612&w=0&k=20&c=WdA5OlsVonnD32cjhu98uxrxBNCfAjEj2TJ46IENDk0=');
+            background-size: cover;
+        }
+        #shortener-container {
+            text-align: center;
+            color: #3498db; 
+        }
+#urlHeading {
+    text-transform: uppercase; 
+    font-weight: bold;
+    font-size: 48px; 
+    margin-bottom: 20px; 
+}
+#originalUrl {
+    width: 400px; 
+    padding: 15px; 
+    margin-bottom: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 18px; 
+}
+#shortenBtn {
+    padding: 15px 25px; 
+    cursor: pointer;
+    background-color: #3498db; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+#shortenBtn:hover {
+    background-color: #2980b9; 
+}
+#result {
+    margin-top: 30px; 
+    font-weight: bold;
+    font-size: 20px; 
+}
+    </style>
+</head>
+<body>
+    <div id="shortener-container">
+        <h1 id="urlHeading">URL Shortener</h1>
+        <input type="text" id="originalUrl" placeholder="Enter the original URL">
+        <button id="shortenBtn" onclick="shortenLink()">Shorten it!</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        const urlMap = {};
+        function shortenLink() {
+            const originalUrl = document.getElementById('originalUrl').value;
+            const shortenedUrl = generateShortUrl(originalUrl);
+            urlMap[shortenedUrl] = originalUrl;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `Shortened URL: <a href="${shortenedUrl}" target="_blank">${shortenedUrl}</a>`;
+            document.getElementById('shortenBtn').style.backgroundColor = '#2ecc71'; 
+            setInterval(changeHeadingColor, 1000); // Change every 1000 milliseconds (1 second)
+        }
+        function changeHeadingColor() {
+            const heading = document.getElementById('urlHeading');
+            const colors = ['#e74c3c', '#f39c12', '#27ae60', '#3498db']; 
+            const randomColor = colors[Math.floor(Math.random() * colors.length)]; 
+            heading.style.color = randomColor; // Set the heading color
+        }
+        function generateShortUrl(originalUrl) {
+            const randomString = Math.random().toString(36).substring(2, 8);
+            return `http://example.com/${randomString}`;
+        }
+        document.addEventListener('click', function(event) {
+            if (event.target.tagName === 'A' && event.target.href.startsWith('http://example.com/')) {
+                event.preventDefault();
+                const shortenedUrl = event.target.href;
+                const originalUrl = urlMap[shortenedUrl];
+                window.open(originalUrl, '_blank');
+            }
+        });
+    </script>
+</body>
+</html>
